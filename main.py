@@ -2,7 +2,7 @@ from software_treino import *
 
 def menu():
     print("\nMENU SISTEMA GERADOR DE TREINOS")
-    print("==============|💪|==============")
+    print("==============|🏋️‍♀️|==============")
     print("1) Cadastrar aluno")
     print("2) Alunos cadastrados")
     print("3) Consultar treino")
