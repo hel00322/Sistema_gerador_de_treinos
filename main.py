@@ -2,7 +2,7 @@ from software_treino import *
 
 def menu():
     print("\nMENU SISTEMA GERADOR DE TREINOS")
-    print("================*================")
+    print("==============|💪|==============")
     print("1) Cadastrar aluno")
     print("2) Alunos cadastrados")
     print("3) Consultar treino")
@@ -40,7 +40,7 @@ def main():
 
         elif opcao == "3":
             if not alunos:
-                print("\nNenhum aluno cadastrado, cadestre um aluno para consultar os treinos")
+                print("\nNenhum aluno cadastrado, cadastre um aluno para consultar os treinos")
                 continue
 
             for i, aluno in enumerate(alunos):
@@ -55,7 +55,7 @@ def main():
 
         elif opcao == "4":
             if not alunos:
-                print("\nNenhum aluno cadastrado")
+                print("\nNenhum aluno cadastrado, cadastre um aluno para criar o treino")
                 continue
 
             for i, aluno in enumerate(alunos):
