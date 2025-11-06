@@ -25,7 +25,7 @@ def escolher_objetivo():
             else:
                 print("Escolha um número entre 1 e", len(objetivos))
         except ValueError:
-            print("Digite apenas números válidos.")
+            print("\nDigite apenas números válidos.")
 
 def ler_float(prompt):
     while True:
@@ -33,7 +33,7 @@ def ler_float(prompt):
         try:
             return float(val)
         except ValueError:
-            print("Informe um número válido (ex: 70.5)")
+            print("\nInforme um número válido.")
 
 def main():
     alunos: list[Aluno] = []
@@ -86,7 +86,7 @@ def main():
             try:
                 escolha = int(input("\nEscolha o número do aluno: ").strip()) - 1
             except ValueError:
-                print("Digite um número válido.")
+                print("\nDigite um número válido.")
                 continue
 
             if 0 <= escolha < len(alunos):
@@ -94,7 +94,7 @@ def main():
                 print(f"\nTreino de {aluno._Pessoa__nome}:")
                 aluno.treino.exibir_treino_completo()
             else:
-                print("Aluno inválido.")
+                print("\nAluno inválido.")
 
         elif opc == "4":
             if not alunos:
@@ -118,16 +118,16 @@ def main():
                     removido = alunos.pop(escolha)
                     print(f"\nAluno {removido._Pessoa__nome} removido.")
                 else:
-                    print("Aluno inválido.")
+                    print("\nAluno inválido.")
             except ValueError:
-                print("Digite um número válido.")
+                print("\nDigite um número válido.")
 
         elif opc == "6":
             print("\nSaindo do sistema...")
             break
 
         else:
-            print("Opção inválida. Tente novamente.")
+            print("\nOpção inválida. Tente novamente.")
 
 if __name__ == "__main__":
     main()
