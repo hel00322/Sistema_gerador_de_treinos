@@ -1,21 +1,53 @@
-Objetivo,Nome do Exerc�cio,Grupo Muscular,S�ries,Repeti��es
-Emagrecimento,Corrida na esteira,Cardio,1,30
+Objetivo,Nome do Exercício,Grupo Muscular,Séries,Repetições
+
+Emagrecimento,Corrida na esteira,Cardio,1,30 minutos
 Emagrecimento,Agachamento livre,Pernas,4,15
-Emagrecimento,Prancha,Abd�men,3,45
-Emagrecimento,Flex�o de bra�o,Peito,3,20
+Emagrecimento,Prancha,Abdômen,3,45 segundos
+Emagrecimento,Flexão de braço,Peito,3,20
 Emagrecimento,Abdominal supra,Core,3,25
+Emagrecimento,Burpee,Corpo inteiro,3,10
+Emagrecimento,Pular corda,Cardio,3,40 segundos
+Emagrecimento,Mountain Climber,Core/Cardio,3,30
+Emagrecimento,Afundo,Pernas,4,12 por perna
+Emagrecimento,Remada alta,Ombros,3,15
+Emagrecimento,Cadeira extensora,Pernas,3,20
+Emagrecimento,Elevação lateral,Ombros,3,15
+Emagrecimento,Stiff,Posterior de Coxa,3,12
+
 Hipertrofia,Supino reto,Peito,4,8
 Hipertrofia,Leg press,Pernas,4,10
 Hipertrofia,Remada curvada,Costas,4,8
 Hipertrofia,Desenvolvimento com halteres,Ombros,4,10
-Hipertrofia,Tr�ceps pulley,Bra�os,3,12
-Resist�ncia,Caminhada leve,Cardio,1,20
-Resist�ncia,Polichinelos,Corpo inteiro,3,25
-Resist�ncia,Agachamento com salto,Pernas,3,15
-Resist�ncia,Flex�o de bra�o,Peito,3,15
-Resist�ncia,Prancha lateral,Core,3,30
-Condicionamento,Corrida leve,Cardio,1,20
-Condicionamento,Flex�o de bra�o,Peito,3,15
+Hipertrofia,Tríceps pulley,Braços,3,12
+Hipertrofia,Rosca direta,Bíceps,3,10
+Hipertrofia,Puxada alta,Costas,4,10
+Hipertrofia,Agachamento búlgaro,Pernas,3,10 por perna
+Hipertrofia,Crucifixo com halteres,Peito,3,12
+Hipertrofia,Elevação frontal,Ombros,3,12
+Hipertrofia,Panturrilha sentado,Panturrilha,4,15
+Hipertrofia,Cadeira flexora,Posterior de Coxa,3,12
+
+Resistência,Caminhada leve,Cardio,1,20 minutos
+Resistência,Polichinelos,Corpo inteiro,3,25
+Resistência,Agachamento com salto,Pernas,3,15
+Resistência,Flexão de braço,Peito,3,15
+Resistência,Prancha lateral,Core,3,30 segundos por lado
+Resistência,Salto na caixa (Box Jump),Pernas,3,10
+Resistência,Corrida de calcanhar,Cardio,3,40 segundos
+Resistência,V-up,Core,3,20
+Resistência,Elevação de joelhos (High Knees),Cardio,3,45 segundos
+Resistência,Thruster com halteres,Corpo inteiro,3,15
+Resistência,Remada cavalinho,Costas,3,15
+
+Condicionamento,Corrida leve,Cardio,1,20 minutos
+Condicionamento,Flexão de braço,Peito,3,15
 Condicionamento,Abdominais,Core,3,20
 Condicionamento,Agachamento livre,Pernas,3,15
-Condicionamento,Prancha frontal,Abd�men,3,40
+Condicionamento,Prancha frontal,Abdômen,3,40 segundos
+Condicionamento,Supino com halteres,Peito,3,12
+Condicionamento,Remada sentado,Costas,3,15
+Condicionamento,Tríceps testa,Braços,3,15
+Condicionamento,Rosca martelo,Bíceps/Antebraço,3,15
+Condicionamento,Extensão lombar,Lombar,3,15
+Condicionamento,Hip thrust,Glúteos/Pernas,3,15
+Condicionamento,Desenvolvimento militar,Ombros,3,12
