@@ -13,7 +13,7 @@ Este projeto é um sistema desenvolvido em Python para auxiliar na gestão de tr
 3. Avaliação Física: Cálculo automático do IMC, classificação (ex: Peso normal, Sobrepeso) e histórico de evolução comparando com avaliações anteriores.
 4. Gestão de Dados: Funcionalidades para listar todos os alunos cadastrados, consultar treinos específicos, atualizar o peso do aluno e remover cadastros.
 
-# Como Executar1:
+# Como Executar:
 1. Clone o repositório do GitHub (ou baixe os arquivos):
     git clone [https://github.com/hel00322/Sistema_gerador_de_treinos.git]
 2.  Acesse a pasta do projeto
