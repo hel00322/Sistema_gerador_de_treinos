@@ -1,8 +1,8 @@
 # Sistema Gerador de Treinos 💪
 
 # Integrantes do Grupo
-Bianca Beatriz Franco Azevedo Andrade - biancabeatriz@unisantos.br
-Heloísa Tavares Nunes - heloisa.nunes@unisantos.br
+- Bianca Beatriz Franco Azevedo Andrade - biancabeatriz@unisantos.br
+- Heloísa Tavares Nunes - heloisa.nunes@unisantos.br
 
 # Descrição do Projeto
 Este projeto é um sistema desenvolvido em Python para auxiliar na gestão de treinos e acompanhamento físico de alunos de uma academia. O software permite o cadastro de alunos, a geração automática de fichas de treino personalizadas com base no objetivo do usuário e o monitoramento da evolução do IMC (Índice de Massa Corporal).
