@@ -1,7 +1,8 @@
+import csv
+import random
 from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import List
-
 
 class Pessoa(ABC):
     __nome : str 
@@ -36,37 +37,6 @@ class Pessoa(ABC):
         txt += f"Altura: {self.altura}m\n"
         return txt
 
-class Aluno(Pessoa):
-    matricula: int 
-    objetivo: str
-    treinos: List[str]
-
-    
-    _matriculas_existentes = set()
-    _proxima_matricula = 1000  
-
-    def __init__(self, nome, data, cpf, peso, altura, objetivo_escolhido):
-        super().__init__(nome, data, cpf, peso, altura)
-        self.matricula = self._gerar_matricula_unica()
-        self.objetivo = objetivo_escolhido
-        self.treino = Treino("Treino Personalizado", "Iniciante", self.objetivo)
-
-    @classmethod
-    def _gerar_matricula_unica(cls):
-        """Gera número de matrícula único automaticamente."""
-        while cls._proxima_matricula in cls._matriculas_existentes:
-            cls._proxima_matricula += 1
-        nova_matricula = cls._proxima_matricula
-        cls._matriculas_existentes.add(nova_matricula)
-        cls._proxima_matricula += 1
-        return nova_matricula
-
-
-    def __str__(self):
-        txt = super().__str__()
-        txt += f"Matrícula: {self.matricula}\n"
-        return txt
-
 class Exercicio:
     def __init__(self, nomeExercicio, grupoMuscular, series, repeticoes):
         self.__nome = nomeExercicio
@@ -74,7 +44,6 @@ class Exercicio:
         self.__series = series
         self.__repeticoes = repeticoes
 
-    
     def get_nome(self):
         return self.__nome
 
@@ -91,7 +60,6 @@ class Exercicio:
         return f"{self.__nome} ({self.__grupoMuscular}) - {self.__series}x{self.__repeticoes}"
 
 class Treino:
-
     def __init__(self, nomeTreino, nivel, objetivo):
         self.__nomeTreino = nomeTreino
         self.__nivel = nivel
@@ -100,54 +68,73 @@ class Treino:
         self.__gerar_exercicios_por_objetivo()
 
     def __gerar_exercicios_por_objetivo(self):
+        self.__exercicios = []
+        todos_exercicios_compativeis = []
+        
+        try:
+            with open('exercicios.csv', mode='r', encoding='utf-8') as arquivo:
+                leitor = csv.DictReader(arquivo)
+                
+                for linha in leitor:
+                    if linha['Objetivo'].strip().lower() == self.__objetivo:
+                        novo_exercicio = Exercicio(
+                            linha['Nome do Exercício'],
+                            linha['Grupo Muscular'],
+                            linha['Séries'],
+                            linha['Repetições']
+                        )
+                        todos_exercicios_compativeis.append(novo_exercicio)
 
-        if self.__objetivo == "emagrecimento":
-            self.__exercicios = [
-                Exercicio("Corrida na esteira", "Cardio", 1, 30),
-                Exercicio("Agachamento livre", "Pernas", 4, 15),
-                Exercicio("Prancha", "Abdômen", 3, 45)
-            ]
-        elif self.__objetivo == "hipertrofia":
-            self.__exercicios = [
-                Exercicio("Supino reto", "Peito", 4, 8),
-                Exercicio("Leg press", "Pernas", 4, 10),
-                Exercicio("Remada curvada", "Costas", 4, 8)
-            ]
-        elif self.__objetivo == "condicionamento":
-            self.__exercicios = [
-                Exercicio("Corrida leve", "Cardio", 1, 20),
-                Exercicio("Flexão de braço", "Peito", 3, 15),
-                Exercicio("Abdominais", "Core", 3, 20)
-            ]
-        else:
-            self.__exercicios = [
-                Exercicio("Caminhada leve", "Cardio", 1, 20),
-                Exercicio("Polichinelos", "Corpo inteiro", 3, 20)
-            ]
+            if not todos_exercicios_compativeis:
+                print(f"\nAviso: Nenhum exercício encontrado no CSV para o objetivo '{self.__objetivo}'.")
+            elif len(todos_exercicios_compativeis) > 5:
+                self.__exercicios = random.sample(todos_exercicios_compativeis, 5)
+            else:
+                self.__exercicios = todos_exercicios_compativeis
+
+        except Exception as e:
+            print(f"\nErro ao ler o arquivo de exercícios: {e}")
 
     def exibir_treino_completo(self):
         print(f"\nTreino: {self.__nomeTreino} ({self.__nivel}) - Objetivo: {self.__objetivo.capitalize()}")
+        if not self.__exercicios:
+            print(" - Nenhum exercício cadastrado.")
         for ex in self.__exercicios:
             print(f" - {ex.get_nome()} ({ex.get_grupo_muscular()}) - {ex.get_series()}x{ex.get_repeticoes()}")
 
 
-class AvaliacaoFisica:
-    def __init__(self, pessoa: Aluno, data_atual):
-        self.pessoa = pessoa  
-        self.data_atual = data_atual
+class Aluno(Pessoa):
+    matricula: int 
+    objetivo: str
+    treino: Treino 
+    ultimo_imc: float
 
-    def evolucao(self, peso_atual):
-        peso_pessoa = self.pessoa.get_peso()  
+    _matriculas_existentes = set()
+    _proxima_matricula = 1000  
 
-        
-        objetivo = self.pessoa.objetivo
+    def __init__(self, nome, data, cpf, peso, altura, objetivo_escolhido):
+        super().__init__(nome, data, cpf, peso, altura)
+        self.matricula = self._gerar_matricula_unica()
+        self.objetivo = objetivo_escolhido
+        self.treino = Treino("Treino Personalizado", "Iniciante", self.objetivo)
+        self.ultimo_imc = None
 
-        if objetivo == "emagrecimento":
-            if peso_pessoa > peso_atual:
-                return "Parabéns, você já teve uma excelente evolução, continue assim!"
-            else:
-                return "Poxa, você não teve evolução, mas não desanime, continue treinando que você em breve começará a evoluir!"
-                
+    @classmethod
+    def _gerar_matricula_unica(cls):
+        while cls._proxima_matricula in cls._matriculas_existentes:
+            cls._proxima_matricula += 1
+        nova_matricula = cls._proxima_matricula
+        cls._matriculas_existentes.add(nova_matricula)
+        cls._proxima_matricula += 1
+        return nova_matricula
+
+    def __str__(self):
+        txt = super().__str__()
+        txt += f"Matrícula: {self.matricula}\n"
+        if self.ultimo_imc:
+            txt += f"Último IMC: {self.ultimo_imc:.2f}\n"
+        return txt
+
 class AvaliacaoFisica:
     
     def __init__(self, pessoa: Aluno, data_atual, imc_anterior=None):
@@ -180,7 +167,6 @@ class AvaliacaoFisica:
             return "Obesidade grau 3"
 
     def evolucao(self):
-       
         imc_atual = self.calcular_IMC()  
 
         if type(imc_atual) == str:
@@ -188,8 +174,7 @@ class AvaliacaoFisica:
  
         if self.imc_anterior is None:
             classificacao_imc = self.classificar_IMC(imc_atual)
-            return f"Seu IMC atual é {imc_atual:.2f}, classificado como: {classificacao_imc}. Continue acompanhando sua evolução!"
-
+            return f"Primeira avaliação! Seu IMC atual é {imc_atual:.2f} ({classificacao_imc}). Vamos acompanhar sua evolução!"
 
         if imc_atual < self.imc_anterior:
             evolucao = "melhorou"
@@ -198,35 +183,24 @@ class AvaliacaoFisica:
         else:
             evolucao = "não teve alteração"
 
-
-        objetivo = self.pessoa.objetivo
+        objetivo = self.pessoa.objetivo.lower()
         classificacao_imc = self.classificar_IMC(imc_atual)
 
         if objetivo == "emagrecimento":
             if evolucao == "melhorou":
-                return f"Parabéns, você está indo muito bem no seu objetivo de emagrecimento! Seu IMC atual é {imc_atual:.2f}, classificado como: {classificacao_imc}. Continue assim!"
+                return f"Parabéns! IMC baixou de {self.imc_anterior:.2f} para {imc_atual:.2f} ({classificacao_imc})."
             elif evolucao == "piorou":
-                return f"Você precisará ajustar seu treino ou alimentação. Seu IMC aumentou para {imc_atual:.2f}, classificado como: {classificacao_imc}. Revise seu foco!"
+                return f"Atenção. IMC subiu de {self.imc_anterior:.2f} para {imc_atual:.2f} ({classificacao_imc})."
             else:
-                return f"Seu IMC não teve alteração. Atualmente, ele é {imc_atual:.2f}, classificado como: {classificacao_imc}. Continue focando no emagrecimento!"
+                return f"Estável em {imc_atual:.2f} ({classificacao_imc})."
 
         elif objetivo == "hipertrofia":
-            if evolucao == "melhorou":
-                return f"Excelente! Você está ganhando massa muscular, o que é ótimo para o seu objetivo de hipertrofia. Seu IMC aumentou para {imc_atual:.2f}, classificado como: {classificacao_imc}. Continue assim!"
+            if evolucao == "melhorou": 
+                return f"IMC diminuiu para {imc_atual:.2f}. Cuidado com perda de massa."
             elif evolucao == "piorou":
-                return f"Seu IMC está diminuindo, o que não é ideal para hipertrofia. Seu IMC atual é {imc_atual:.2f}, classificado como: {classificacao_imc}. Ajuste sua dieta e treino!"
+                return f"IMC subiu para {imc_atual:.2f} ({classificacao_imc}). Ótimo se for músculo!"
             else:
-                return f"Seu IMC não mudou. Atualmente, seu IMC é {imc_atual:.2f}, classificado como: {classificacao_imc}. Mantenha o foco no aumento de massa muscular!"
-
-        elif objetivo == "condicionamento":
-            if evolucao == "melhorou":
-                return f"Ótimo progresso no seu objetivo de condicionamento físico! Seu IMC atual é {imc_atual:.2f}, classificado como: {classificacao_imc}. Continue assim!"
-            elif evolucao == "piorou":
-                return f"Seu IMC aumentou. Lembre-se de equilibrar seu treino e alimentação. Seu IMC atual é {imc_atual:.2f}, classificado como: {classificacao_imc}."
-            else:
-                return f"Você manteve o seu IMC. Atualmente, seu IMC é {imc_atual:.2f}, classificado como: {classificacao_imc}. Continue focado no seu condicionamento!"
+                return f"Estável em {imc_atual:.2f}. Foco no treino!"
 
         else:
-            return f"Seu IMC atual é {imc_atual:.2f}, classificado como: {classificacao_imc}. Mantenha a consistência!"
-        
-        
+            return f"IMC atual: {imc_atual:.2f} ({classificacao_imc})."

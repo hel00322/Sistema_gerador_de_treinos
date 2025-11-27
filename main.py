@@ -1,4 +1,5 @@
 from software_treino import *
+from datetime import datetime
 
 def menu():
     print("\n============================")
@@ -8,8 +9,10 @@ def menu():
     print("2) Listar alunos cadastrados")
     print("3) Consultar treino de um aluno")
     print("4) Exibir treinos de todos os alunos")
-    print("5) Remover aluno")
-    print("6) Sair")
+    print("5) Atualizar Peso (para IMC)")
+    print("6) Realizar Avaliação Física (IMC)")
+    print("7) Remover aluno")
+    print("0) Sair")
 
 def escolher_objetivo():
     objetivos = ["Emagrecimento", "Hipertrofia", "Resistência", "Condicionamento"]
@@ -43,7 +46,7 @@ def main():
         opc = input("\nSelecione uma opção: ").strip()
 
         if opc == "1":
-            print("\n=== Cadastro de Novo Aluno ===")
+            print("\n=== CADASTRAR NOVO ALUNO ===")
             nome = input("Nome: ").strip()
             data = input("Data de nascimento (dd/mm/yyyy): ").strip()
             cpf = input("CPF: ").strip()
@@ -55,14 +58,11 @@ def main():
                 aluno = Aluno(nome, data, cpf, peso, altura, objetivo)
             except Exception as e:
                 print("Erro ao criar aluno:", e)
-                print("Verifique os dados e tente novamente.")
                 continue
 
             alunos.append(aluno)
-            print(f"\nAluno(a) {nome} cadastrado(a) com sucesso!")
-            print(f"Matrícula gerada: {aluno.matricula}")
-            print(f"Objetivo: {aluno.objetivo}")
-            print("\nTreino gerado automaticamente:")
+            print(f"\nAluno(a) {nome} cadastrado com sucesso!")
+            print("Treino gerado automaticamente:")
             aluno.treino.exibir_treino_completo()
 
         elif opc == "2":
@@ -78,56 +78,102 @@ def main():
             if not alunos:
                 print("\nNenhum aluno cadastrado.")
                 continue
-
             print("\n=== CONSULTAR TREINO ===")
             for i, a in enumerate(alunos, start=1):
-                print(f"{i}. {a._Pessoa__nome} (Matrícula: {a.matricula})")
-
+                print(f"{i}. {a._Pessoa__nome}")
             try:
-                escolha = int(input("\nEscolha o número do aluno: ").strip()) - 1
+                escolha = int(input("\nEscolha o aluno: ").strip()) - 1
+                if 0 <= escolha < len(alunos):
+                    alunos[escolha].treino.exibir_treino_completo()
+                else:
+                    print("Aluno inválido.")
             except ValueError:
-                print("\nDigite um número válido.")
-                continue
-
-            if 0 <= escolha < len(alunos):
-                aluno = alunos[escolha]
-                print(f"\nTreino de {aluno._Pessoa__nome}:")
-                aluno.treino.exibir_treino_completo()
-            else:
-                print("\nAluno inválido.")
+                print("Entrada inválida.")
 
         elif opc == "4":
             if not alunos:
                 print("\nNenhum aluno cadastrado.")
                 continue
-            print("\n=== TREINOS DE TODOS OS ALUNOS ===")
+            print("\n=== CONSULTAR TODOS OS TREINOS ===")
             for a in alunos:
-                print(f"\nAluno: {a._Pessoa__nome} (Matrícula: {a.matricula})")
+                print(f"\nAluno: {a._Pessoa__nome}")
                 a.treino.exibir_treino_completo()
 
-        elif opc == "5":
+        elif opc == "5": 
+            if not alunos:
+                print("\nNenhum aluno cadastrado.")
+                continue
+            print("\n=== ATUALIZAR DADOS ===")
+            for i, a in enumerate(alunos, start=1):
+                print(f"{i}. {a._Pessoa__nome} (Peso atual: {a.peso}kg)")
+            try:
+                escolha = int(input("\nEscolha o aluno: ").strip()) - 1
+                if 0 <= escolha < len(alunos):
+                    novo_peso = ler_float("Novo peso (kg): ")
+                    alunos[escolha].peso = novo_peso
+                    print("Peso atualizado!")
+                else:
+                    print("Inválido.")
+            except ValueError:
+                print("Erro.")
+
+        elif opc == "6":
+            if not alunos:
+                print("\nNenhum aluno cadastrado.")
+                continue
+            
+            print("\n=== AVALIAÇÃO FÍSICA ===")
+            for i, a in enumerate(alunos, start=1):
+                print(f"{i}. {a._Pessoa__nome}")
+                
+            try:
+                escolha = int(input("\nEscolha o aluno para avaliar: ").strip()) - 1
+                if 0 <= escolha < len(alunos):
+                    aluno_selecionado = alunos[escolha]
+                    
+                    avaliacao = AvaliacaoFisica(
+                        aluno_selecionado, 
+                        datetime.now(), 
+                        imc_anterior=aluno_selecionado.ultimo_imc
+                    )
+                    
+                    print("\n" + "="*30)
+                    print(avaliacao.evolucao())
+                    print("="*30)
+                    
+                    imc_atual = avaliacao.calcular_IMC()
+                    if isinstance(imc_atual, float):
+                        aluno_selecionado.ultimo_imc = imc_atual
+                        
+                else:
+                    print("Aluno inválido.")
+            except ValueError:
+                print("Entrada inválida.")
+
+        
+        elif opc == "7":
             if not alunos:
                 print("\nNenhum aluno cadastrado.")
                 continue
             print("\n=== REMOVER ALUNO ===")
             for i, a in enumerate(alunos, start=1):
-                print(f"{i}. {a._Pessoa__nome} (Matrícula: {a.matricula})")
+                print(f"{i}. {a._Pessoa__nome}")
             try:
-                escolha = int(input("\nEscolha o número do aluno a remover: ").strip()) - 1
+                escolha = int(input("\nEscolha o aluno a remover: ").strip()) - 1
                 if 0 <= escolha < len(alunos):
                     removido = alunos.pop(escolha)
-                    print(f"\nAluno {removido._Pessoa__nome} removido.")
+                    print(f"Aluno {removido._Pessoa__nome} removido.")
                 else:
-                    print("\nAluno inválido.")
+                    print("Aluno inválido.")
             except ValueError:
-                print("\nDigite um número válido.")
+                print("Entrada inválida.")
 
-        elif opc == "6":
-            print("\nSaindo do sistema...")
+        elif opc == "0":
+            print("\nSaindo...")
             break
 
         else:
-            print("\nOpção inválida. Tente novamente.")
+            print("\nOpção inválida.")
 
 if __name__ == "__main__":
     main()
