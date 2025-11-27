@@ -2,6 +2,7 @@
 
 # Integrantes do Grupo
 Bianca Beatriz Franco Azevedo Andrade - biancabeatriz@unisantos.br
+
 Heloísa Tavares Nunes - heloisa.nunes@unisantos.br
 
 # Descrição do Projeto
